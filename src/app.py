@@ -6,24 +6,32 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mydatabase.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy()
 db.init_app(app)
 
 class Place(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    file_ref = db.Column(db.String(120), unique=True, nullable=False)
+    file_ref = db.Column(db.String(30), unique=True, nullable=False)
+    grade = db.Column(db.String(20),nullable=False)
+    district=db.Column(db.String(20),nullable=False)
+    address=db.Column(db.String(120),nullable=False)
+
 
 def load_initialize_data():
     print("load_initialize_data executed")
     db.create_all()  # Ensure all tables are created
      # Open the JSON file and load its data
-    with open("historic-building.json", 'r') as file:
-        data = json.load(file)
-        for feature in data["features"]:
-            place = Place(file_ref=feature['properties']['FILE_REF'])
-            db.session.add(place)
-        db.session.commit()
+    if Place.query.first() is None:  # Check if the places table is empty
+        with open("historic-building.json", 'r') as file:
+            data = json.load(file)
+            for feature in data["features"]:
+                place = Place(file_ref=feature['properties']['FILE_REF'], 
+                              grade=feature['properties']['GRADE'],
+                              district=feature['properties']['DISTRICT'],
+                              address=feature['properties']['ADDRESS'])
+                db.session.add(place)
+            db.session.commit()
         
 
 @app.route('/')

@@ -6,4 +6,8 @@ run:
 
 # Clean the SQLite database
 clean-db:
-	rm -f instance/mydatabase.db
+	rm -f instance/database.db
+
+# Update the requirements.txt
+update:
+	pip freeze > requirements.txt
