@@ -1,0 +1,18 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% include 'header.html' %}
+  </head>
+  <body>
+    {% include 'navbar.html' %}
+    <div id="map" style="height: 600px"></div>
+    <div id="boundsDisplay" class=""></div>
+    <script type="text/javascript">
+      var geojsonData = {{ geojson_data | tojson | safe }};
+    </script>
+    <script src="{{ url_for('static', filename='js/create-map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/display-bounds.js') }}"></script>
+  </body>
+</html>
