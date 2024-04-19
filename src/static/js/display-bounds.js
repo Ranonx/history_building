@@ -1,6 +1,6 @@
 /** @format */
 
-// Display bounds information
+// Display bounds information for Debugging
 function updateBounds() {
   var bounds = map.getBounds();
   var minLat = bounds.getSouthWest().lat;
@@ -9,13 +9,9 @@ function updateBounds() {
   var maxLng = bounds.getNorthEast().lng;
 
   // Update the UI with the current bounds
-  var boundsInfo = `Current Bounds: <br>
-                  Min Latitude: ${minLat.toFixed(
-                    4
-                  )}, Min Longitude: ${minLng.toFixed(4)} <br>
-                  Max Latitude: ${maxLat.toFixed(
-                    4
-                  )}, Max Longitude: ${maxLng.toFixed(4)}`;
+  var boundsInfo = ` Min Lat: ${minLat.toFixed(4)}, Min Long: ${minLng.toFixed(
+    4
+  )} <br> Max Lat: ${maxLat.toFixed(4)}, Max Long: ${maxLng.toFixed(4)}`;
   document.getElementById('boundsDisplay').innerHTML = boundsInfo;
 }
 // Update bounds on map load and on map movements

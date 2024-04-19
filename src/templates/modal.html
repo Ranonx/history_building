@@ -1,0 +1,36 @@
+<!-- @format -->
+
+<!-- modal.html -->
+<div
+  class="modal fade"
+  id="detailsModal"
+  tabindex="-1"
+  aria-labelledby="detailsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="detailsModalTitle"></h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-dialog modal-dialog-scrollable" id="modalBody">
+        <div id="modalContent">
+          <!-- Place details will be injected here -->
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <form id="visitForm" action="/save-visit" method="post">
+          <input type="hidden" name="place_id" value="" />
+          <!-- The value will be set dynamically -->
+          <button type="submit" class="btn btn-outline-success">打卡</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

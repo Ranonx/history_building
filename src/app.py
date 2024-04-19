@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,6 +13,7 @@ db.init_app(app)
 class Place(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     file_ref = db.Column(db.String(30), unique=True, nullable=False)
+    name = db.Column(db.String(50), unique=False, nullable=False)
     grade = db.Column(db.String(20),nullable=False)
     district=db.Column(db.String(20),nullable=False)
     address=db.Column(db.String(120),nullable=False)
@@ -27,6 +28,7 @@ def load_initialize_data():
             data = json.load(file)
             for feature in data["features"]:
                 place = Place(file_ref=feature['properties']['FILE_REF'], 
+                              name=feature['properties']['NAME'], 
                               grade=feature['properties']['GRADE'],
                               district=feature['properties']['DISTRICT'],
                               address=feature['properties']['ADDRESS'])
@@ -42,6 +44,11 @@ def main():
     # Pass the loaded data to the template
     return render_template('base.html', geojson_data=geojson_data)
 
+@app.route('/get-place-details')
+def get_place_details():
+    file_ref = request.args.get('file_ref')
+    place = Place.query.filter_by(file_ref=file_ref).first_or_404()
+    return jsonify(name=place.name, address=place.address)
 
 if __name__ == '__main__':
     with app.app_context():

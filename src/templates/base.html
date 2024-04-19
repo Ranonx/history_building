@@ -7,12 +7,21 @@
   </head>
   <body>
     {% include 'navbar.html' %}
+    <!-- Map -->
     <div id="map" style="height: 600px"></div>
-    <div id="boundsDisplay" class=""></div>
+
+    <!-- Modal -->
+    {% include 'modal.html' %}
+
+    <!-- Map Debugger -->
+    <div id="boundsDisplay" class="fw-light"></div>
+
+    <!-- Geojson Variable -->
     <script type="text/javascript">
       var geojsonData = {{ geojson_data | tojson | safe }};
     </script>
     <script src="{{ url_for('static', filename='js/create-map.js') }}"></script>
     <script src="{{ url_for('static', filename='js/display-bounds.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/open-modal.js') }}"></script>
   </body>
 </html>
