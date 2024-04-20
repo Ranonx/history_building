@@ -11,3 +11,8 @@ clean:
 # Update the requirements.txt
 update:
 	pip freeze > requirements.txt
+
+# runs data collector
+collect:
+	python src/data_collector/collector.py
+	

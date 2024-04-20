@@ -2,8 +2,11 @@
 from flask import Flask, request, jsonify
 import requests
 from bs4 import BeautifulSoup
+from flask_cors import CORS
 
 app = Flask(__name__)
+# Allow all domains to access this service
+CORS(app)
 
 @app.route('/fetch-images', methods=['GET'])
 def fetch_images():
@@ -17,3 +20,4 @@ def fetch_images():
 
 if __name__ == '__main__':
     app.run(port=5001)
+

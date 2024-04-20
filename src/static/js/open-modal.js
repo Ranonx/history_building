@@ -61,25 +61,23 @@ document
       });
   });
 
-//Fetch images for modal
+// Function to fetch and display images related to the place
 function fetchImages(fileRef) {
-  const imageUrl = `https://gish.amo.gov.hk/internet/linktoimages/GetImageList?FILE_REF=${fileRef}`;
-
-  // Fetch images
+  const imageUrl = `http://localhost:5001/fetch-images?fileRef=${fileRef}`;
   fetch(imageUrl)
-    .then((response) => response.json()) // assuming the server responds with JSON containing URLs
+    .then((response) => response.json())
     .then((imageData) => {
-      const imageContainer = document.createElement('div');
-
-      imageData.forEach((imgUrl) => {
+      // Assuming imageData is an array of URLs
+      const imagesContainer = document.getElementById('modalContent');
+      imageData.forEach((url) => {
         const img = document.createElement('img');
-        img.src = imgUrl;
-        img.style.width = '100%'; // Set the image width or any styling as needed
-        imageContainer.appendChild(img);
+        img.src = url;
+        img.style.width = '100%'; // Adjust styling as needed
+        imagesContainer.appendChild(img);
       });
-
-      // Append the image container to the modal content
-      document.getElementById('modalContent').appendChild(imageContainer);
     })
-    .catch((error) => console.error('Error fetching images:', error));
+    .catch((error) => {
+      console.error('Error fetching images:', error);
+      // Optionally handle the error in UI, e.g., show an error alert
+    });
 }
