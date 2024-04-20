@@ -5,7 +5,7 @@ run:
 	python src/app.py
 
 # Clean the SQLite database
-clean-db:
+clean:
 	rm -f instance/database.db
 
 # Update the requirements.txt

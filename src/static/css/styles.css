@@ -1,0 +1,17 @@
+/** @format */
+
+#alertPlaceholder {
+  position: fixed; /* or 'absolute' if only relative to the nearest positioned ancestor */
+  top: 10px; /* Distance from the top of the viewport */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Center align the element */
+  width: 100%; /* Maximum width, adjust as necessary */
+  text-align: center; /* Center text for smaller alerts */
+  z-index: 1050; /* Higher than the map and other page content */
+}
+
+.alert {
+  display: inline-block; /* More control over sizing */
+  width: auto; /* Auto width based on content */
+  max-width: 90%; /* Max-width to avoid overly wide alerts */
+}

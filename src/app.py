@@ -3,7 +3,7 @@
 from flask import Flask, request, render_template, jsonify
 import json
 from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
@@ -18,6 +18,11 @@ class Place(db.Model):
     district=db.Column(db.String(20),nullable=False)
     address=db.Column(db.String(120),nullable=False)
 
+class Visited(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    place_id = db.Column(db.Integer, db.ForeignKey('place.id'), nullable=False)
+    visit_date = db.Column(db.DateTime, default=datetime.utcnow)
+    place = db.relationship('Place', backref='visits')
 
 def load_initialize_data():
     print("load_initialize_data executed")
@@ -44,11 +49,27 @@ def main():
     # Pass the loaded data to the template
     return render_template('base.html', geojson_data=geojson_data)
 
+@app.route('/add-visit', methods=['POST'])
+def add_visit():
+    data = request.get_json()
+    file_ref = data.get('place_id')
+    if not file_ref:
+        return jsonify({'error': 'place_id is required'}), 400
+    place = Place.query.filter_by(file_ref=file_ref).first()
+    if not place:
+        return jsonify({'error': 'Place not found'}), 404
+
+    visited = Visited(place_id=place.id)
+    db.session.add(visited)
+    db.session.commit()
+    return jsonify({'message': 'Visit added successfully'}), 201
+
 @app.route('/get-place-details')
 def get_place_details():
     file_ref = request.args.get('file_ref')
     place = Place.query.filter_by(file_ref=file_ref).first_or_404()
     return jsonify(name=place.name, address=place.address)
+
 
 if __name__ == '__main__':
     with app.app_context():

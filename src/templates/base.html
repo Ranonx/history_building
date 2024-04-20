@@ -7,8 +7,11 @@
   </head>
   <body>
     {% include 'navbar.html' %}
+
     <!-- Map -->
     <div id="map" style="height: 600px"></div>
+    <!-- Placeholder for Alerts -->
+    <div id="alertPlaceholder"></div>
 
     <!-- Modal -->
     {% include 'modal.html' %}
@@ -22,6 +25,9 @@
     </script>
     <script src="{{ url_for('static', filename='js/create-map.js') }}"></script>
     <script src="{{ url_for('static', filename='js/display-bounds.js') }}"></script>
+    <!-- canvas-confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="{{ url_for('static', filename='js/display-alert.js') }}"></script>
     <script src="{{ url_for('static', filename='js/open-modal.js') }}"></script>
   </body>
 </html>
