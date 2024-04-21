@@ -31,7 +31,10 @@
         class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small"
       >
         <li>
-          <a href="#" class="nav-link text-white">
+          <a
+            href="/"
+            class="nav-link {{ 'text-white' if current_page == 'home' else 'text-secondary' }}"
+          >
             <!-- Home icon -->
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -49,7 +52,10 @@
           </a>
         </li>
         <li>
-          <a href="#" class="nav-link text-secondary">
+          <a
+            href="/stats"
+            class="nav-link {{ 'text-white' if current_page == 'stats' else 'text-secondary' }}"
+          >
             <!-- Dashboard icon -->
             <svg
               xmlns="http://www.w3.org/2000/svg"

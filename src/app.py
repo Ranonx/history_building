@@ -42,16 +42,20 @@ def load_initialize_data():
         
 
 @app.route('/')
-def main():
+def home():
      # Open the JSON file and load its data
     with open("historic-building.json", 'r') as file:
         geojson_data = json.load(file)
     # Pass the loaded data to the template
-    return render_template('base.html', geojson_data=geojson_data)
+    return render_template('base.html', geojson_data=geojson_data,current_page='home')
 
 @app.route('/stats')
 def statistics():
-    return render_template('base.html')
+     # Open the JSON file and load its data
+    with open("historic-building.json", 'r') as file:
+        geojson_data = json.load(file)
+    # Pass the loaded data to the template
+    return render_template('table.html', geojson_data=geojson_data,current_page='stats')
 
 
 @app.route('/add-visit', methods=['POST'])
