@@ -49,6 +49,11 @@ def main():
     # Pass the loaded data to the template
     return render_template('base.html', geojson_data=geojson_data)
 
+@app.route('/stats')
+def statistics():
+    return render_template('base.html')
+
+
 @app.route('/add-visit', methods=['POST'])
 def add_visit():
     data = request.get_json()

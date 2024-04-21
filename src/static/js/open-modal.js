@@ -15,9 +15,25 @@ function openModal(fileRef) {
       // Now fetch images using the fileRef
       fetchImages(fileRef);
 
+      // Set the value for place_id and modify the button based on visit status
+      const visitButton = document.querySelector(
+        "#detailsModal form button[type='submit']"
+      );
       document.querySelector(
         "#detailsModal form input[name='place_id']"
       ).value = fileRef;
+      if (data.visited) {
+        visitButton.classList.remove('btn-outline-success');
+        visitButton.classList.add('btn-success');
+        visitButton.disabled = true;
+        visitButton.textContent = '已打卡'; // "Already Checked In" or similar
+      } else {
+        visitButton.classList.remove('btn-success');
+        visitButton.classList.add('btn-outline-success');
+        visitButton.disabled = false;
+        visitButton.textContent = '打卡'; // "Check In"
+      }
+
       var modal = new bootstrap.Modal(document.getElementById('detailsModal'));
       modal.show();
     })
