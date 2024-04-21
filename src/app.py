@@ -59,6 +59,11 @@ def add_visit():
     if not place:
         return jsonify({'error': 'Place not found'}), 404
 
+     # Check if a visit to this place already exists
+    existing_visit = Visited.query.filter_by(place_id=place.id).first()
+    if existing_visit:
+        return jsonify({'error': 'Visit already recorded'}), 409  # 409 Conflict
+
     visited = Visited(place_id=place.id)
     db.session.add(visited)
     db.session.commit()
@@ -67,9 +72,16 @@ def add_visit():
 @app.route('/get-place-details')
 def get_place_details():
     file_ref = request.args.get('file_ref')
-    place = Place.query.filter_by(file_ref=file_ref).first_or_404()
-    return jsonify(name=place.name, address=place.address)
-
+    place = Place.query.filter_by(file_ref=file_ref).first()
+    if not place:
+        return jsonify({'error': 'Place not found'}), 404
+    
+    visited = Visited.query.filter_by(place_id=place.id).first() is not None
+    return jsonify({
+        'name': place.name,
+        'address': place.address,
+        'visited': visited  # True or False
+    })
 
 if __name__ == '__main__':
     with app.app_context():

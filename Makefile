@@ -15,4 +15,12 @@ update:
 # runs data collector
 collect:
 	python src/data_collector/collector.py
-	
+
+# runs data analyzer
+analyse:
+	python src/data_analyser/analyzer.py
+
+# runs both data analyzer and collector
+workers:
+	python src/data_analyser/analyzer.py
+	python src/data_collector/collector.py
