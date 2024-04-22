@@ -79,7 +79,7 @@ document
 
 // Function to fetch and display images related to the place
 function fetchImages(fileRef) {
-  const imageUrl = `http://localhost:5001/fetch-images?fileRef=${fileRef}`;
+  const imageUrl = `http://localhost:5002/fetch-images?fileRef=${fileRef}`;
   fetch(imageUrl)
     .then((response) => response.json())
     .then((imageData) => {

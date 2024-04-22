@@ -2,6 +2,7 @@
 
 from flask import Flask, request, render_template, jsonify
 import json
+import requests
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
@@ -50,12 +51,25 @@ def home():
     return render_template('base.html', geojson_data=geojson_data,current_page='home')
 
 @app.route('/stats')
-def statistics():
-     # Open the JSON file and load its data
-    with open("historic-building.json", 'r') as file:
-        geojson_data = json.load(file)
-    # Pass the loaded data to the template
-    return render_template('table.html', geojson_data=geojson_data,current_page='stats')
+def recent_visits():
+    recent_visits = db.session.query(
+        Visited.visit_date, 
+        Place.name, 
+        Place.district, 
+        Place.address
+    ).join(Place, Visited.place_id == Place.id) \
+    .order_by(Visited.visit_date.desc()) \
+    .limit(10).all()
+        
+    # Fetch statistics data from the data analyzer service
+    stats_response = requests.get('http://localhost:5001/fetch-data')
+    if stats_response.status_code == 200:
+        stats_data = stats_response.json()
+    else:
+        stats_data = {'total_places': 0, 'total_visits': 0, 'visit_ratio': 0}
+
+    return render_template('table.html', visits=recent_visits,stats=stats_data,current_page='stats')
+
 
 
 @app.route('/add-visit', methods=['POST'])
