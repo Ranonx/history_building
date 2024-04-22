@@ -5,8 +5,11 @@ import json
 import requests
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from flask_cors import CORS  # Import CORS
 
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all domains on all routes
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy()
 db.init_app(app)
