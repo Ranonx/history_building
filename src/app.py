@@ -67,9 +67,7 @@ def recent_visits():
         stats_data = stats_response.json()
     else:
         stats_data = {'total_places': 0, 'total_visits': 0, 'visit_ratio': 0}
-
-    return render_template('table.html', visits=recent_visits,stats=stats_data,current_page='stats')
-
+    return render_template('table.html', visits=recent_visits, stats=stats_data, current_page='stats')
 
 
 @app.route('/add-visit', methods=['POST'])
