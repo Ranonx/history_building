@@ -20,3 +20,6 @@ collect:
 analyse:
 	python src/data_analyser/analyzer.py
 
+# runs test route.py
+route:
+	python -m unittest tests/test_routes.py

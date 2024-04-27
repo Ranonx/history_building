@@ -75,6 +75,10 @@ def recent_visits():
 
 @app.route('/add-visit', methods=['POST'])
 def add_visit():
+    # Ensure the request content type is JSON
+    if not request.is_json:
+        return jsonify({'error': 'Invalid content type, expected application/json'}), 400
+    
     data = request.get_json()
     file_ref = data.get('place_id')
     if not file_ref:
