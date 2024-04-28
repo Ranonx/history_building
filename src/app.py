@@ -6,9 +6,11 @@ import requests
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask_cors import CORS  # Import CORS
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all domains on all routes
+PrometheusMetrics(app)  # Automatically exposes endpoint at /metrics
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy()
