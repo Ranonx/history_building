@@ -21,17 +21,16 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Set up Python 3.8
+      - name: Set up Python 3.11.2
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.11.2
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install gunicorn flask_sqlalchemy flask requests pytest
-          # If you have a requirements.txt
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          pip install -r requirements.txt
 
       - name: Setup Database
         run: |
@@ -44,23 +43,20 @@ jobs:
       - name: Start Main Server
         run: |
           gunicorn --bind 0.0.0.0:5000 src.app:app &
-        background: true
 
       - name: Start Worker Server - Collect
         run: |
           # Simulate 'make collect' - start your data collection worker
-          python -c "import src; src.collect_worker()"
-        background: true
+          python src/data_collector/collector.py &
 
       - name: Start Worker Server - Analyse
         run: |
           # Simulate 'make analyse' - start your analysis worker
-          python -c "import src; src.analyse_worker()"
-        background: true
+          python src/data_analyser/analyzer.py &
 
       - name: Run Tests
         run: |
-          pytest tests/test_routes.py
+          python -m unittest tests/test_routes.py
 
       - name: Additional Cleanup
         if: always()
