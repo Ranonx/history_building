@@ -26,12 +26,12 @@ function openModal(fileRef) {
         visitButton.classList.remove('btn-outline-success');
         visitButton.classList.add('btn-success');
         visitButton.disabled = true;
-        visitButton.textContent = '已打卡'; // "Already Checked In" or similar
+        visitButton.textContent = 'Checked'; // "Already Checked In" or similar
       } else {
         visitButton.classList.remove('btn-success');
         visitButton.classList.add('btn-outline-success');
         visitButton.disabled = false;
-        visitButton.textContent = '打卡'; // "Check In"
+        visitButton.textContent = 'Check In'; // "Check In"
       }
 
       var modal = new bootstrap.Modal(document.getElementById('detailsModal'));
